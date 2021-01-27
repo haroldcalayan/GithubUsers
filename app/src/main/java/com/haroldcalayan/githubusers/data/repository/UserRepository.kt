@@ -18,6 +18,8 @@ interface UserRepository {
 
     suspend fun getUser(id: Int): List<User>
 
+    suspend fun getProfile(name: String): User
+
     suspend fun insertUser(user: User)
 
     suspend fun deleteUsers()

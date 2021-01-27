@@ -10,6 +10,7 @@ import android.app.Application
 import com.haroldcalayan.githubusers.di.component.AppComponent
 import com.haroldcalayan.githubusers.di.component.DaggerAppComponent
 import com.haroldcalayan.githubusers.di.module.AppModule
+import com.haroldcalayan.githubusers.util.NetworkUtil
 import timber.log.Timber
 
 class GithubUsersApp : Application() {
@@ -32,6 +33,10 @@ class GithubUsersApp : Application() {
 
     private fun initLog() {
         if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
+    }
+
+    fun hasInternetConnection() : Boolean {
+        return NetworkUtil.isNetConneted(this)
     }
 
     companion object {

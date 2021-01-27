@@ -11,6 +11,7 @@ import com.haroldcalayan.githubusers.base.BaseRepository
 import com.haroldcalayan.githubusers.data.model.User
 import com.haroldcalayan.githubusers.data.source.local.GithubUsersDatabase
 import com.haroldcalayan.githubusers.data.source.remote.ApiClient
+import timber.log.Timber
 import javax.inject.Inject
 
 class UserRepositoryImpl(private val appDatabase: GithubUsersDatabase) : BaseRepository(), UserRepository {
@@ -58,7 +59,30 @@ class UserRepositoryImpl(private val appDatabase: GithubUsersDatabase) : BaseRep
 
     override suspend fun getCachedUsers() = appDatabase.userDao().getAllUsers()
 
-    override suspend fun getUser(id: Int): List<User> = appDatabase.userDao().getUser(id)
+    override suspend fun getUser(id: Int) = appDatabase.userDao().getUser(id)
+
+    override suspend fun getProfile(name: String) : User {
+        Timber.d("getProfile() name: $name")
+        if (GithubUsersApp.instance.hasInternetConnection()) {
+            Timber.d("enters if")
+            try {
+                Timber.d("enters try")
+                var profileFromRemote = api.getService()?.getProfile(name)
+                if(profileFromRemote != null) {
+                    appDatabase.userDao().insert(profileFromRemote)
+                }
+                Timber.d("profileFromRemote: $profileFromRemote")
+                return profileFromRemote ?: appDatabase.userDao().getUserByName(name)
+            } catch (e : Exception) {
+                Timber.d("enters catch")
+                e.printStackTrace()
+            }
+            return appDatabase.userDao().getUserByName(name)
+        } else {
+            Timber.d("enters else")
+            return appDatabase.userDao().getUserByName(name)
+        }
+    }
 
     override suspend fun insertUser(user: User) = appDatabase.userDao().insert(user)
 

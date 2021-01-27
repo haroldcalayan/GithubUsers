@@ -6,6 +6,7 @@
 
 package com.haroldcalayan.githubusers.ui.user
 
+import android.content.Intent
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.haroldcalayan.githubusers.BR
@@ -13,6 +14,7 @@ import com.haroldcalayan.githubusers.R
 import com.haroldcalayan.githubusers.base.BaseActivity
 import com.haroldcalayan.githubusers.data.model.User
 import com.haroldcalayan.githubusers.databinding.ActivityUserBinding
+import com.haroldcalayan.githubusers.ui.profile.ProfileActivity
 import kotlinx.android.synthetic.main.activity_user.*
 import timber.log.Timber
 
@@ -35,7 +37,7 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>() {
         super.initData()
         val listener = object: UserAdapter.Listener {
             override fun onItemClick(user: User) {
-
+                openProfile(user)
             }
         }
         userAdapter = UserAdapter(listener, emptyList())
@@ -51,5 +53,12 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>() {
             Timber.d("getViewModel().users: $it")
             userAdapter.updateList(it)
         })
+    }
+
+    private fun openProfile(user: User) {
+        Intent(this, ProfileActivity::class.java).apply {
+            this.putExtra(ProfileActivity.EXTRA_USER_NAME, user.login)
+            startActivity(this)
+        }
     }
 }

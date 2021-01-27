@@ -8,10 +8,14 @@ package com.haroldcalayan.githubusers.data.source.remote
 
 import com.haroldcalayan.githubusers.data.model.User
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
 
     @GET("users")
-    suspend fun getUsers(@Query("since") since: Int): List<User>??
+    suspend fun getUsers(@Query("since") since: Int): List<User>?
+
+    @GET("users/{name}")
+    suspend fun getProfile(@Path("name") name: String): User?
 }
