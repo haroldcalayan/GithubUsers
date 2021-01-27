@@ -6,6 +6,7 @@
 
 package com.haroldcalayan.githubusers.ui.profile
 
+import android.view.MenuItem
 import androidx.lifecycle.Observer
 import com.haroldcalayan.githubusers.BR
 import com.haroldcalayan.githubusers.R
@@ -21,6 +22,11 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
 
     override fun getBindingVariable() = BR.viewModel
 
+    override fun initViews() {
+        super.initViews()
+        initToolbar()
+    }
+
     override fun initData() {
         super.initData()
         val name = intent.extras?.getString(EXTRA_USER_NAME) ?: ""
@@ -34,7 +40,26 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
         })
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun initToolbar() {
+        setSupportActionBar(findViewById(R.id.toolbar))
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.title = ""
+    }
+
     private fun populateData(user: User) {
+        supportActionBar?.title = user.login
+
         Picasso.get()
             .load(user.avatarUrl)
             .fit()
