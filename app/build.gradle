@@ -22,6 +22,7 @@ android {
         targetSdkVersion configs.targetSdkVersion
         versionCode configs.versionCode
         versionName configs.versionName
+        buildConfigField "String", "DB_NAME", DATABASE_NAME
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
