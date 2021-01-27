@@ -59,6 +59,10 @@ ext {
             compiler                    : "com.google.dagger:dagger-compiler:$daggerVersion"
     ]
 
+    // Picasso
+    picassoVersion = "2.71828"
+    picassoDependency = "com.squareup.picasso:picasso:$picassoVersion"
+
     // Test
     testVersion_4_12_0 = "4.12"
     testVersion_1_1_1 = "1.1.1"

@@ -22,7 +22,6 @@ android {
         targetSdkVersion configs.targetSdkVersion
         versionCode configs.versionCode
         versionName configs.versionName
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -139,6 +138,9 @@ dependencies {
     // Dagger
     implementation daggerDependencies.dagger
     kapt daggerDependencies.compiler
+
+    // Picasso
+    implementation picassoDependency
 
     // Test
     testImplementation testDependencies.junit
