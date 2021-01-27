@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2021. All rights reserved.
+  ~
+  ~ Created by Harold Calayan on 1/28/2021
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="user"
+            type="com.haroldcalayan.githubusers.data.model.User" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/spacing_small">
+
+        <ImageView
+            android:id="@+id/imageview_user_item_image"
+            android:layout_width="@dimen/spacing_xxlarge"
+            android:layout_height="@dimen/spacing_xxlarge"
+            android:src="@mipmap/ic_launcher_round"
+            android:padding="@dimen/spacing_small"
+            android:layout_margin="@dimen/spacing_small"
+            android:layout_marginLeft="@dimen/spacing_xlarge"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:id="@+id/textview_user_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{ user.login }"
+            android:textSize="@dimen/font_large"
+            android:layout_marginTop="@dimen/spacing_xmedium"
+            android:layout_marginLeft="@dimen/spacing_xmedium"
+            android:layout_toRightOf="@+id/imageview_user_item_image"
+            android:layout_alignTop="@+id/imageview_user_item_image"
+            tools:text="abcde"/>
+        <TextView
+            android:id="@+id/textview_user_item_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{ user.htmlUrl }'
+            android:textSize="@dimen/font_normal"
+            android:layout_marginLeft="@dimen/spacing_xmedium"
+            android:layout_toRightOf="@+id/imageview_user_item_image"
+            android:layout_alignBottom="@+id/imageview_user_item_image"
+            android:layout_marginBottom="@dimen/spacing_xmedium"
+            tools:text="efghi"/>
+
+        <ImageView
+            android:id="@+id/imageview_user_item_note"
+            android:layout_width="@dimen/spacing_xlarge"
+            android:layout_height="@dimen/spacing_xlarge"
+            android:src="@drawable/ic_note"
+            android:padding="@dimen/spacing_small"
+            android:layout_margin="@dimen/spacing_small"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+</layout>

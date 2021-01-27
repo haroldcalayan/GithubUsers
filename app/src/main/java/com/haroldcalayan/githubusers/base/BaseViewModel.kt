@@ -9,6 +9,9 @@ package com.haroldcalayan.githubusers.base
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.haroldcalayan.githubusers.GithubUsersApp
+import com.haroldcalayan.githubusers.ui.profile.ProfileViewModel
+import com.haroldcalayan.githubusers.ui.user.UserViewModel
 
 open class BaseViewModel : ViewModel() {
 
@@ -21,6 +24,8 @@ open class BaseViewModel : ViewModel() {
 
     private fun inject() {
         when (this) {
+            is UserViewModel -> GithubUsersApp.instance.appComponent.inject(this)
+            is ProfileViewModel -> GithubUsersApp.instance.appComponent.inject(this)
         }
     }
 

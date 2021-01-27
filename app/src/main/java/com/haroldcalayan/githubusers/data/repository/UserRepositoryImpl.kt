@@ -26,13 +26,12 @@ class UserRepositoryImpl(private val appDatabase: GithubUsersDatabase) : BaseRep
         try {
             var users = api.getService()?.getUsers(0)
 
-            if (users?.isNotEmpty() == false) {
+            if (users?.isNotEmpty() == true) {
                 appDatabase.userDao().deleteAll()
                 appDatabase.userDao().insertUsers(users)
             } else {
                 users = appDatabase.userDao().getAllUsers()
             }
-
             return users
         } catch (e : Exception) {
             e.printStackTrace()

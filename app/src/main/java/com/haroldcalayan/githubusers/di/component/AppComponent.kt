@@ -10,6 +10,8 @@ import com.haroldcalayan.githubusers.data.repository.UserRepositoryImpl
 import com.haroldcalayan.githubusers.di.module.AppModule
 import com.haroldcalayan.githubusers.di.module.NetworkModule
 import com.haroldcalayan.githubusers.di.module.RepositoryModule
+import com.haroldcalayan.githubusers.ui.profile.ProfileViewModel
+import com.haroldcalayan.githubusers.ui.user.UserViewModel
 import dagger.Component
 import javax.inject.Singleton
 
@@ -18,6 +20,8 @@ import javax.inject.Singleton
 interface AppComponent {
 
     // Classes that can be injected by this Component
+    fun inject(viewModel: UserViewModel)
+    fun inject(viewModel: ProfileViewModel)
 
     fun inject(repository: UserRepositoryImpl)
 }
