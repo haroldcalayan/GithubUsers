@@ -6,7 +6,7 @@
 
 package com.haroldcalayan.githubusers.di.component
 
-import com.haroldcalayan.githubusers.data.repository.UserRepositoryImpl
+import com.haroldcalayan.githubusers.data.repository.user.UserRepositoryImpl
 import com.haroldcalayan.githubusers.di.module.AppModule
 import com.haroldcalayan.githubusers.di.module.MediaModule
 import com.haroldcalayan.githubusers.di.module.NetworkModule

@@ -1,20 +1,20 @@
 /*
  * Copyright (c) 2021. All rights reserved.
  *
- * Created by Harold Calayan on 1/27/2021
+ * Created by Harold Calayan on 1/29/2021
  */
 
-package com.haroldcalayan.githubusers.data.repository
+package com.haroldcalayan.githubusers.data.repository.user
 
 import com.haroldcalayan.githubusers.GithubUsersApp
 import com.haroldcalayan.githubusers.base.BaseRepository
 import com.haroldcalayan.githubusers.data.model.User
 import com.haroldcalayan.githubusers.data.source.local.GithubUsersDatabase
 import com.haroldcalayan.githubusers.data.source.remote.ApiClient
-import timber.log.Timber
 import javax.inject.Inject
 
-class UserRepositoryImpl(private val appDatabase: GithubUsersDatabase) : BaseRepository(), UserRepository {
+class UserRepositoryImpl(private val appDatabase: GithubUsersDatabase) : BaseRepository(),
+    UserRepository {
 
     @Inject
     lateinit var api: ApiClient
@@ -86,9 +86,7 @@ class UserRepositoryImpl(private val appDatabase: GithubUsersDatabase) : BaseRep
         if (GithubUsersApp.instance.hasInternetConnection()) {
             try {
                 var profileFromRemote = api.getService()?.getProfile(name)
-                if(profileFromRemote != null) {
-                    val rows = appDatabase.userDao().update(profileFromRemote)
-                }
+                if(profileFromRemote != null) appDatabase.userDao().update(profileFromRemote)
                 return profileFromRemote ?: appDatabase.userDao().getUserByName(name)
             } catch (e : Exception) {
                 e.printStackTrace()
@@ -102,5 +100,9 @@ class UserRepositoryImpl(private val appDatabase: GithubUsersDatabase) : BaseRep
     override suspend fun insertUser(user: User) = appDatabase.userDao().insert(user)
 
     override suspend fun deleteUsers() = appDatabase.userDao().deleteAll()
+
+    override suspend fun updateUser(user: User) {
+        appDatabase.userDao().update(user)
+    }
 
 }

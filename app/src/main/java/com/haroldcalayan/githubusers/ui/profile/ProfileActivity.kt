@@ -27,6 +27,13 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
     override fun initViews() {
         super.initViews()
         initToolbar()
+
+        button_user_save.setOnClickListener {
+            val notes = edittext_user_notes.text.toString().trim()
+            getViewModel().updateNotes(notes)
+            showToastMessage(R.string.success_notes_save)
+            finish()
+        }
     }
 
     override fun initData() {
@@ -39,6 +46,9 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
         super.subscribe()
         getViewModel().user.observe(this, {
             populateData(it)
+        })
+        getViewModel().note.observe(this, {
+            if(it != null) edittext_user_notes.setText(it.notes)
         })
     }
 

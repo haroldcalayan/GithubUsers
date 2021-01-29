@@ -4,7 +4,7 @@
  * Created by Harold Calayan on 1/27/2021
  */
 
-package com.haroldcalayan.githubusers.data.repository
+package com.haroldcalayan.githubusers.data.repository.user
 
 import com.haroldcalayan.githubusers.data.model.User
 
@@ -23,5 +23,7 @@ interface UserRepository {
     suspend fun insertUser(user: User)
 
     suspend fun deleteUsers()
+
+    suspend fun updateUser(user: User)
 
 }

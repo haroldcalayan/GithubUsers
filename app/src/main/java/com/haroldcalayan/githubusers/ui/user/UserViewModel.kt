@@ -11,7 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.haroldcalayan.githubusers.base.BaseViewModel
 import com.haroldcalayan.githubusers.data.model.User
-import com.haroldcalayan.githubusers.data.repository.UserRepository
+import com.haroldcalayan.githubusers.data.repository.user.UserRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

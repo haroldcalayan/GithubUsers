@@ -7,7 +7,6 @@
 package com.haroldcalayan.githubusers.data.source.local.dao
 
 import androidx.room.*
-import androidx.room.FtsOptions.Order
 import com.haroldcalayan.githubusers.data.model.User
 
 
