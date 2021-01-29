@@ -24,7 +24,7 @@
             android:id="@+id/imageview_user_item_image"
             android:layout_width="@dimen/spacing_xxlarge"
             android:layout_height="@dimen/spacing_xxlarge"
-            android:src="@mipmap/ic_launcher_round"
+            circleImageUrl="@{ user.avatarUrl }"
             android:padding="@dimen/spacing_small"
             android:layout_margin="@dimen/spacing_small"
             android:layout_marginLeft="@dimen/spacing_xlarge"

@@ -13,6 +13,8 @@ import com.haroldcalayan.githubusers.R
 import com.haroldcalayan.githubusers.base.BaseActivity
 import com.haroldcalayan.githubusers.data.model.User
 import com.haroldcalayan.githubusers.databinding.ActivityProfileBinding
+import com.haroldcalayan.githubusers.util.extension.loadImage
+import com.squareup.picasso.Cache
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_profile.*
 
@@ -60,10 +62,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
     private fun populateData(user: User) {
         supportActionBar?.title = user.login
 
-        Picasso.get()
-            .load(user.avatarUrl)
-            .fit()
-            .into(imageview_profile_image)
+        user.avatarUrl?.let { imageview_profile_image.loadImage(it, true) }
 
         textview_profile_followers.text = "followers: ".plus(user.followers)
         textview_profile_following.text = "following: ".plus(user.following)
