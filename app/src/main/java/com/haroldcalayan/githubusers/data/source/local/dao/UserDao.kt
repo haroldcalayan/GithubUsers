@@ -6,11 +6,10 @@
 
 package com.haroldcalayan.githubusers.data.source.local.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
+import androidx.room.FtsOptions.Order
 import com.haroldcalayan.githubusers.data.model.User
+
 
 @Dao
 interface UserDao {
@@ -24,7 +23,7 @@ interface UserDao {
     @Query("SELECT * FROM user WHERE id = :id")
     suspend fun getUser(id: Int): List<User>
 
-    @Query("SELECT * FROM user WHERE name = :name")
+    @Query("SELECT * FROM user WHERE login = :name")
     suspend fun getUserByName(name: String): User
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -32,6 +31,9 @@ interface UserDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertUsers(users: List<User>)
+
+    @Update
+    suspend fun update(user: User)
 
     @Query("DELETE FROM user")
     suspend fun deleteAll()

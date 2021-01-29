@@ -83,24 +83,18 @@ class UserRepositoryImpl(private val appDatabase: GithubUsersDatabase) : BaseRep
     override suspend fun getUser(id: Int) = appDatabase.userDao().getUser(id)
 
     override suspend fun getProfile(name: String) : User {
-        Timber.d("getProfile() name: $name")
         if (GithubUsersApp.instance.hasInternetConnection()) {
-            Timber.d("enters if")
             try {
-                Timber.d("enters try")
                 var profileFromRemote = api.getService()?.getProfile(name)
                 if(profileFromRemote != null) {
-                    appDatabase.userDao().insert(profileFromRemote)
+                    val rows = appDatabase.userDao().update(profileFromRemote)
                 }
-                Timber.d("profileFromRemote: $profileFromRemote")
                 return profileFromRemote ?: appDatabase.userDao().getUserByName(name)
             } catch (e : Exception) {
-                Timber.d("enters catch")
                 e.printStackTrace()
             }
             return appDatabase.userDao().getUserByName(name)
         } else {
-            Timber.d("enters else")
             return appDatabase.userDao().getUserByName(name)
         }
     }
