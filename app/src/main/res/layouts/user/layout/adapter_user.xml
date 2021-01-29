@@ -10,9 +10,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="user"
             type="com.haroldcalayan.githubusers.data.model.User" />
+        <variable
+            name="note"
+            type="com.haroldcalayan.githubusers.data.model.Note" />
     </data>
 
     <RelativeLayout
@@ -62,7 +66,8 @@
             android:padding="@dimen/spacing_small"
             android:layout_margin="@dimen/spacing_small"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:visibility="@{ (note != null) ? ((note.notes.length() > 0) ? View.VISIBLE : View.INVISIBLE) : View.INVISIBLE }"/>
 
     </RelativeLayout>
 </layout>

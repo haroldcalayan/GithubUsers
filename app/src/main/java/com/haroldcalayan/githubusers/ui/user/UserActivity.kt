@@ -26,6 +26,11 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>() {
 
     override fun getBindingVariable() = BR.viewModel
 
+    override fun onResume() {
+        super.onResume()
+        getViewModel().getUsers()
+    }
+
     override fun initViews() {
         super.initViews()
         val linearLayoutManager : RecyclerView.LayoutManager = LinearLayoutManager(this)
@@ -40,7 +45,7 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>() {
                 openProfile(user)
             }
         }
-        userAdapter = UserAdapter(listener, emptyList())
+        userAdapter = UserAdapter(listener, emptyList(), emptyList())
         recyclerview_user_users.adapter = userAdapter
 
         getViewModel().getCachedUsers()
@@ -49,9 +54,10 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>() {
 
     override fun subscribe() {
         super.subscribe()
-        getViewModel().users.observe(this, {
-            Timber.d("getViewModel().users: $it")
-            userAdapter.updateList(it)
+        getViewModel().notes.observe(this, {
+            getViewModel().users.value?.let { users ->
+                userAdapter.updateList(users, it)
+            }
         })
     }
 

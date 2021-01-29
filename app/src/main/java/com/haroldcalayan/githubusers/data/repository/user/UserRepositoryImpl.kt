@@ -30,18 +30,20 @@ class UserRepositoryImpl(private val appDatabase: GithubUsersDatabase) : BaseRep
      *
      */
     override suspend fun getAllUsers(): List<User> {
-        try {
-            var users = api.getService()?.getUsers(0)
+        if (GithubUsersApp.instance.hasInternetConnection()) {
+            try {
+                var users = api.getService()?.getUsers(0)
 
-            if (users?.isNotEmpty() == true) {
-                appDatabase.userDao().deleteAll()
-                appDatabase.userDao().insertUsers(users)
-            } else {
-                users = appDatabase.userDao().getAllUsers()
+                if (users?.isNotEmpty() == true) {
+                    appDatabase.userDao().deleteAll()
+                    appDatabase.userDao().insertUsers(users)
+                } else {
+                    users = appDatabase.userDao().getAllUsers()
+                }
+                return users
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-            return users
-        } catch (e : Exception) {
-            e.printStackTrace()
         }
         return appDatabase.userDao().getAllUsers()
     }
@@ -56,18 +58,20 @@ class UserRepositoryImpl(private val appDatabase: GithubUsersDatabase) : BaseRep
      * @param offset An intent representing the starting row id to query in the database
      */
     override suspend fun getSomeUsers(since: Int, limit: Int, offset: Int): List<User> {
-        try {
-            var users = appDatabase.userDao().getSomeUsers(limit, offset)
-            if(users.isNotEmpty()) return users
+        if (GithubUsersApp.instance.hasInternetConnection()) {
+            try {
+                var users = appDatabase.userDao().getSomeUsers(limit, offset)
+                if (users.isNotEmpty()) return users
 
-            var usersFromRemote = api.getService()?.getUsers(since)
+                var usersFromRemote = api.getService()?.getUsers(since)
 
-            if(usersFromRemote!!.isNotEmpty()) {
-                appDatabase.userDao().deleteAll()
-                appDatabase.userDao().insertUsers(users)
+                if (usersFromRemote!!.isNotEmpty()) {
+                    appDatabase.userDao().deleteAll()
+                    appDatabase.userDao().insertUsers(users)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-        } catch (e : Exception) {
-            e.printStackTrace()
         }
         return appDatabase.userDao().getSomeUsers(limit, offset)
     }
@@ -91,10 +95,8 @@ class UserRepositoryImpl(private val appDatabase: GithubUsersDatabase) : BaseRep
             } catch (e : Exception) {
                 e.printStackTrace()
             }
-            return appDatabase.userDao().getUserByName(name)
-        } else {
-            return appDatabase.userDao().getUserByName(name)
         }
+        return appDatabase.userDao().getUserByName(name)
     }
 
     override suspend fun insertUser(user: User) = appDatabase.userDao().insert(user)
