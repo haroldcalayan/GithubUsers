@@ -12,7 +12,7 @@ interface UserRepository {
 
     suspend fun getAllUsers(): List<User>
 
-    suspend fun getSomeUsers(page: Int, limit: Int, offset: Int): List<User>
+    suspend fun getSomeUsers(since: Int, limit: Int, offset: Int): List<User>
 
     suspend fun getCachedUsers(): List<User>
 

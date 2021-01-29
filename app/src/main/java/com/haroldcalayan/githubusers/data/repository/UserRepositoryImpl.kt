@@ -23,6 +23,12 @@ class UserRepositoryImpl(private val appDatabase: GithubUsersDatabase) : BaseRep
         GithubUsersApp.instance.appComponent.inject(this)
     }
 
+    /**
+     * Get specific / subset of users in the API and database
+     *
+     * <p>This method should be used when requesting list of users.</p>
+     *
+     */
     override suspend fun getAllUsers(): List<User> {
         try {
             var users = api.getService()?.getUsers(0)
@@ -40,12 +46,21 @@ class UserRepositoryImpl(private val appDatabase: GithubUsersDatabase) : BaseRep
         return appDatabase.userDao().getAllUsers()
     }
 
-    override suspend fun getSomeUsers(page: Int, limit: Int, offset: Int): List<User> {
+    /**
+     * Get specific / subset of users in the API and database
+     *
+     * <p>This method should be used when requesting list of users.</p>
+     *
+     * @param since An Integer representing the starting user id for the Github's user api
+     * @param limit An intent representing the limit of the rows to query in the database
+     * @param offset An intent representing the starting row id to query in the database
+     */
+    override suspend fun getSomeUsers(since: Int, limit: Int, offset: Int): List<User> {
         try {
             var users = appDatabase.userDao().getSomeUsers(limit, offset)
             if(users.isNotEmpty()) return users
 
-            var usersFromRemote = api.getService()?.getUsers(page)
+            var usersFromRemote = api.getService()?.getUsers(since)
 
             if(usersFromRemote!!.isNotEmpty()) {
                 appDatabase.userDao().deleteAll()
@@ -57,6 +72,12 @@ class UserRepositoryImpl(private val appDatabase: GithubUsersDatabase) : BaseRep
         return appDatabase.userDao().getSomeUsers(limit, offset)
     }
 
+    /**
+     * Get all users saved in the database
+     *
+     * <p>This method should be used when requesting all users from the database.</p>
+     *
+     */
     override suspend fun getCachedUsers() = appDatabase.userDao().getAllUsers()
 
     override suspend fun getUser(id: Int) = appDatabase.userDao().getUser(id)
